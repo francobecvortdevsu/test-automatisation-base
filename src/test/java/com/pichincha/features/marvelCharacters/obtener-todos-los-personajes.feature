@@ -1,5 +1,5 @@
 @HU:1 @marvelCharacters @agente1
-Feature: Marvel Characters API Testing
+Feature: Marvel Characters API Testing - Get all characters
 
   Background:
     # Define base URL for all scenarios
