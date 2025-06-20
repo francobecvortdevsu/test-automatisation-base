@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class KarateBasicTest {
     private static final Logger logger = Logger.getLogger(KarateBasicTest.class.getName());
@@ -41,7 +41,7 @@ class KarateBasicTest {
 
         String karateOutputPath = "build/karate-reports";
         generateReport(karateOutputPath);
-        assertTrue(results.getFailCount() == 0, results.getErrorMessages());
+        assertEquals(0, results.getFailCount(), results.getErrorMessages());
     }
 
     public static void generateReport(String karateOutputPath) throws IOException {
