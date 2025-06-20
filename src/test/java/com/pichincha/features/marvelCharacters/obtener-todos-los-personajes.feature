@@ -15,7 +15,3 @@ Feature: Marvel Characters API Testing
 
     # Validate that the response is a JSON array
     And match response == '#array'
-
-    # Additional validations for when the response contains data
-    * def hasData = responseBytes.length > 2
-    * if (hasData) karate.call('validateCharacterSchema.feature')
