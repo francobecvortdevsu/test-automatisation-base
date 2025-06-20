@@ -5,17 +5,42 @@ Feature: Marvel Characters API Testing - Create character
     # Define base URL for all scenarios
     * url 'http://bp-se-test-cabcd9b246a5.herokuapp.com'
     * def basePath = '/fbecvort/api/characters'
+    # Define utility function to generate random string
+    * def randomString =
+      """
+      function(length) {
+        var chars = 'abcdefghijklmnopqrstuvwxyz';
+        var result = '';
+        for (var i = 0; i < length; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+      }
+      """
+    # Define utility function to get current timestamp
+    * def getCurrentTimestamp =
+      """
+      function() {
+        return java.lang.System.currentTimeMillis();
+      }
+      """
 
   @id:3
   Scenario: Crear personaje (exitoso)
-    # Define the character data
+    # Generate random values for character fields
+    * def timestamp = getCurrentTimestamp()
+    * def randomName = 'Hero_' + randomString(5) + '_' + timestamp
+    * def randomAlterEgo = 'Person_' + randomString(5) + '_' + timestamp
+    * def randomDesc = 'Description_' + randomString(8) + '_' + timestamp
+
+    # Define the character data with random values
     * def characterData =
     """
     {
-      "name": "Spider-Man",
-      "alterego": "Peter Parker",
-      "description": "Superhéroe arácnido de Marvel",
-      "powers": ["Agilidad", "Sentido arácnido", "Trepar muros"]
+      "name": "#(randomName)",
+      "alterego": "#(randomAlterEgo)",
+      "description": "#(randomDesc)",
+      "powers": ["Power_1", "Power_2", "Power_3"]
     }
     """
 
@@ -31,10 +56,10 @@ Feature: Marvel Characters API Testing - Create character
     """
     {
       "id": "#number",
-      "name": "Spider-Man",
-      "alterego": "Peter Parker",
-      "description": "Superhéroe arácnido de Marvel",
-      "powers": ["Agilidad", "Sentido arácnido", "Trepar muros"]
+      "name": "#(randomName)",
+      "alterego": "#(randomAlterEgo)",
+      "description": "#(randomDesc)",
+      "powers": ["Power_1", "Power_2", "Power_3"]
     }
     """
 

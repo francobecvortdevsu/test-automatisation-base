@@ -5,17 +5,42 @@ Feature: Marvel Characters API Testing - Create character with duplicate name
     # Define base URL for all scenarios
     * url 'http://bp-se-test-cabcd9b246a5.herokuapp.com'
     * def basePath = '/fbecvort/api/characters'
+    # Define utility function to generate random string
+    * def randomString =
+      """
+      function(length) {
+        var chars = 'abcdefghijklmnopqrstuvwxyz';
+        var result = '';
+        for (var i = 0; i < length; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+      }
+      """
+    # Define utility function to get current timestamp
+    * def getCurrentTimestamp =
+      """
+      function() {
+        return java.lang.System.currentTimeMillis();
+      }
+      """
 
   @id:4
   Scenario: Crear personaje (nombre duplicado)
-    # First, create a character to ensure it exists in the system
+    # Generate random values for character fields
+    * def timestamp = getCurrentTimestamp()
+    * def randomName = 'DupeTest_' + randomString(5) + '_' + timestamp
+    * def randomAlterEgo = 'Person_' + randomString(5) + '_' + timestamp
+    * def randomDesc = 'Description_' + randomString(8) + '_' + timestamp
+
+    # First, create a character with random values to ensure it exists in the system
     * def initialCharacterData =
     """
     {
-      "name": "Iron Man",
-      "alterego": "Tony Stark",
-      "description": "Genius billionaire",
-      "powers": ["Armor", "Flight"]
+      "name": "#(randomName)",
+      "alterego": "#(randomAlterEgo)",
+      "description": "#(randomDesc)",
+      "powers": ["Power_1", "Power_2", "Power_3"]
     }
     """
 
@@ -24,17 +49,19 @@ Feature: Marvel Characters API Testing - Create character with duplicate name
     And request initialCharacterData
     And header Content-Type = 'application/json'
     When method post
-    # The character might already exist, so we accept both 201 (Created) and 400 (Duplicate) status codes
-    Then status 201, 400
+    Then status 201
+
+    # Store the ID of the created character
+    * def createdCharacterId = response.id
 
     # Now try to create another character with the same name but different details
     * def duplicateCharacterData =
     """
     {
-      "name": "Iron Man",
-      "alterego": "Otro",
-      "description": "Otro",
-      "powers": ["Armor"]
+      "name": "#(randomName)",
+      "alterego": "Duplicate_Alter_Ego",
+      "description": "Duplicate_Description",
+      "powers": ["Duplicate_Power"]
     }
     """
 
