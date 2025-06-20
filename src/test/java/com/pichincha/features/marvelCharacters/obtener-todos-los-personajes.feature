@@ -1,3 +1,4 @@
+@HU:1 @marvelCharacters @agente1
 Feature: Marvel Characters API Testing
 
   Background:
@@ -5,6 +6,7 @@ Feature: Marvel Characters API Testing
     * url 'http://bp-se-test-cabcd9b246a5.herokuapp.com'
     * def basePath = '/fbecvort/api/characters'
 
+  @id:1
   Scenario: Obtener todos los personajes
     # Call the endpoint to get all characters
     Given path basePath
