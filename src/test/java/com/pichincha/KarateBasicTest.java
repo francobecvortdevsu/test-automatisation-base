@@ -9,6 +9,6 @@ class KarateBasicTest {
 
     @Karate.Test
     Karate testMarvelCharacters() {
-        return Karate.run("src/test/java/com/pichincha/features/marvelCharacters/marvel-characters.feature");
+        return Karate.run("src/test/java/com/pichincha/features/marvelCharacters/obtener-todos-los-personajes.feature");
     }
 }
